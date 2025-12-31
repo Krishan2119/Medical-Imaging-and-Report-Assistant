@@ -2,18 +2,18 @@
 
 ![Medical AI Platform](https://img.shields.io/badge/Medical%20AI-Educational-blue) ![React](https://img.shields.io/badge/React-18.0+-blue) ![FastAPI](https://img.shields.io/badge/FastAPI-Python-green) ![MongoDB](https://img.shields.io/badge/MongoDB-Database-green)
 
-## 🎯 Project Overview
+## Project Overview
 
 **Medical Imaging and Report Assistant** is a comprehensive educational platform that demonstrates the integration of AI-powered medical imaging analysis with human expertise. This full-stack web application simulates real-world medical imaging workflows while maintaining strict educational disclaimers and safety protocols.
 
-### ⚠️ IMPORTANT DISCLAIMERS
+###  IMPORTANT DISCLAIMERS
 
 - **Educational Purpose Only**: This project uses ONLY simulated medical data
 - **Clinical Decision Support Tool**: NOT a diagnostic system
 - **Human Review Required**: All AI outputs are clearly marked as drafts requiring human review
 - **No Medical Claims**: The system avoids definitive medical diagnoses
 
-## 🏗️ System Architecture
+## System Architecture
 
 ### Backend Architecture
 ```
@@ -35,7 +35,7 @@ frontend/src/
 └── Register.js      # User registration
 ```
 
-## 🤖 AI Workflow
+## AI Workflow
 
 ### 1. Image Analysis Agent
 - **Purpose**: Analyzes uploaded medical images for anatomical structures and abnormalities
@@ -66,7 +66,7 @@ frontend/src/
 - **Checks**: Definitive language detection, confidence thresholds, disclaimer presence
 - **Output**: Quality scores and improvement recommendations
 
-## 📊 Database Schema
+## Database Schema
 
 ### Collections
 - **users**: User authentication and profile data
@@ -91,7 +91,7 @@ frontend/src/
 }
 ```
 
-## 🔐 Authentication & Security
+## Authentication & Security
 
 ### Authentication Methods
 - **Email/Password**: Traditional authentication with bcrypt hashing
@@ -112,7 +112,7 @@ frontend/src/
 - Audit logging
 - Secure session management
 
-## 📱 Frontend Features
+## Frontend Features
 
 ### Patient Dashboard
 - Patient management with search functionality
@@ -138,7 +138,7 @@ frontend/src/
 - Educational disclaimers
 - Responsive design
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 ### Prerequisites
 - Node.js 16+ and npm
@@ -259,7 +259,7 @@ GET  /reports/{id}                # Get report
 PUT  /reports/{id}                # Update report
 ```
 
-## 🐳 Docker Deployment
+##  Docker Deployment
 
 ### Backend Dockerfile
 ```dockerfile
@@ -361,7 +361,7 @@ volumes:
 - **Scalability vs. Development Time**: Basic implementation over full optimization
 - **Security vs. Usability**: Added security layers while maintaining educational focus
 
-## 🏥 Medical Ethics & Safety
+##  Medical Ethics & Safety
 
 ### Educational Safeguards
 - Clear labeling as educational simulation
@@ -382,7 +382,7 @@ volumes:
 - Secure authentication for demo purposes
 - Audit logging for transparency
 
-## 🧪 Testing Strategy
+##  Testing Strategy
 
 ### Unit Testing
 ```bash
@@ -405,7 +405,7 @@ cd frontend && npm test
 - OAuth security verification
 - Role-based access control testing
 
-## 📚 Learning Objectives
+## Learning Objectives
 
 This project demonstrates:
 1. **Full-Stack Development**: React + FastAPI integration
@@ -415,7 +415,7 @@ This project demonstrates:
 5. **Medical AI Ethics**: Responsible AI development
 6. **System Architecture**: Modular, scalable design patterns
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 ### Short Term
 - [ ] Real computer vision model integration
@@ -431,7 +431,7 @@ This project demonstrates:
 - [ ] Clinical workflow optimization
 - [ ] Regulatory compliance features
 
-## 📝 Contributing
+## Contributing
 
 This is an educational project. Contributions should focus on:
 1. Educational value improvement
@@ -440,11 +440,11 @@ This is an educational project. Contributions should focus on:
 4. Medical ethics compliance
 5. Learning objective alignment
 
-## 📄 License
+## License
 
 Educational License - See LICENSE file for details.
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Medical imaging community for educational guidelines
 - AI ethics researchers for responsible AI development
