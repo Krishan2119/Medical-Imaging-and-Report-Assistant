@@ -1,0 +1,1340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Imaging Assistant</title>
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        /* Simple CSS styling for Medical Imaging Assistant */
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background-color: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+        }
+
+        /* Layout Components */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .card {
+            background: white;
+            border-radius: 0.5rem;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header {
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+        }
+
+        .btn-primary {
+            background-color: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+        }
+
+        .btn-success {
+            background-color: #059669;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #047857;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 0.25rem;
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.375rem;
+            font-size: 0.875rem;
+            background-color: white;
+        }
+
+        /* Table Styles */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table th {
+            background-color: #f9fafb;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 500;
+            color: #6b7280;
+            border-bottom: 1px solid #e5e7eb;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .table tbody tr:hover {
+            background-color: #f9fafb;
+        }
+
+        /* Header Styles */
+        .header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 4rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .header-user {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Navigation */
+        .nav {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .nav-link {
+            padding: 0.5rem 1rem;
+            color: #6b7280;
+            text-decoration: none;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: #f3f4f6;
+            color: #1e293b;
+        }
+
+        /* Utility Classes */
+        .text-center {
+            text-align: center;
+        }
+
+        .text-left {
+            text-align: left;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .mb-1 { margin-bottom: 0.25rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+
+        .mt-1 { margin-top: 0.25rem; }
+        .mt-2 { margin-top: 0.5rem; }
+        .mt-3 { margin-top: 0.75rem; }
+        .mt-4 { margin-top: 1rem; }
+        .mt-6 { margin-top: 1.5rem; }
+
+        .p-2 { padding: 0.5rem; }
+        .p-3 { padding: 0.75rem; }
+        .p-4 { padding: 1rem; }
+        .p-6 { padding: 1.5rem; }
+
+        .px-2 { padding-left: 0.5rem; padding-right: 0.5rem; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+
+        .py-2 { padding-top: 0.5rem; padding-bottom: 0.5rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .py-4 { padding-top: 1rem; padding-bottom: 1rem; }
+
+        .flex {
+            display: flex;
+        }
+
+        .flex-col {
+            flex-direction: column;
+        }
+
+        .items-center {
+            align-items: center;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .justify-center {
+            justify-content: center;
+        }
+
+        .gap-2 { gap: 0.5rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-4 { gap: 1rem; }
+
+        .w-full { width: 100%; }
+        .h-full { height: 100%; }
+
+        .rounded {
+            border-radius: 0.25rem;
+        }
+
+        .rounded-lg {
+            border-radius: 0.5rem;
+        }
+
+        .shadow {
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+        }
+
+        .text-sm { font-size: 0.875rem; }
+        .text-base { font-size: 1rem; }
+        .text-lg { font-size: 1.125rem; }
+        .text-xl { font-size: 1.25rem; }
+        .text-2xl { font-size: 1.5rem; }
+
+        .font-medium { font-weight: 500; }
+        .font-semibold { font-weight: 600; }
+        .font-bold { font-weight: 700; }
+
+        .text-gray-500 { color: #6b7280; }
+        .text-gray-600 { color: #4b5563; }
+        .text-gray-700 { color: #374151; }
+        .text-gray-900 { color: #111827; }
+        .text-blue-600 { color: #2563eb; }
+        .text-green-600 { color: #059669; }
+        .text-red-600 { color: #dc2626; }
+        .text-purple-600 { color: #9333ea; }
+
+        .bg-gray-50 { background-color: #f9fafb; }
+        .bg-gray-100 { background-color: #f3f4f6; }
+        .bg-blue-50 { background-color: #eff6ff; }
+        .bg-blue-100 { background-color: #dbeafe; }
+        .bg-blue-600 { background-color: #2563eb; }
+        .bg-green-600 { background-color: #059669; }
+        .bg-purple-600 { background-color: #9333ea; }
+        .bg-red-600 { background-color: #dc2626; }
+        .bg-white { background-color: white; }
+
+        .border { border: 1px solid #e5e7eb; }
+        .border-b { border-bottom: 1px solid #e5e7eb; }
+
+        .cursor-pointer { cursor: pointer; }
+        .cursor-not-allowed { cursor: not-allowed; }
+
+        .opacity-50 { opacity: 0.5; }
+
+        .animate-spin {
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Alert Styles */
+        .alert {
+            padding: 0.75rem 1rem;
+            border-radius: 0.375rem;
+            margin-bottom: 1rem;
+        }
+
+        .alert-info {
+            background-color: #dbeafe;
+            color: #1e40af;
+            border: 1px solid #93c5fd;
+        }
+
+        .alert-warning {
+            background-color: #fef3c7;
+            color: #92400e;
+            border: 1px solid #fcd34d;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 1px solid #fca5a5;
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 1px solid #6ee7b7;
+        }
+
+        /* Additional utilities */
+        .grid {
+            display: grid;
+        }
+
+        .grid-cols-1 { grid-template-columns: repeat(1, minmax(0, 1fr)); }
+        .grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+        .grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        .grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+        @media (min-width: 768px) {
+            .md-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .md-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+        }
+
+        @media (min-width: 1024px) {
+            .lg-grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .lg-grid-cols-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+            .lg-grid-cols-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+        }
+
+        .space-y-4 > * + * { margin-top: 1rem; }
+        .space-y-6 > * + * { margin-top: 1.5rem; }
+
+        .fixed {
+            position: fixed;
+        }
+
+        .inset-0 {
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+        }
+
+        .bg-black {
+            background-color: #000000;
+        }
+
+        .bg-opacity-50 {
+            background-opacity: 0.5;
+        }
+
+        .flex items-center justify-center {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .z-50 {
+            z-index: 50;
+        }
+
+        .max-w-md {
+            max-width: 28rem;
+        }
+
+        .max-w-lg {
+            max-width: 32rem;
+        }
+
+        .max-h-64 {
+            max-height: 16rem;
+        }
+
+        .max-h-\\[90vh\\] {
+            max-height: 90vh;
+        }
+
+        .overflow-y-auto {
+            overflow-y: auto;
+        }
+
+        .text-4xl {
+            font-size: 2.25rem;
+        }
+
+        .text-6xl {
+            font-size: 3.75rem;
+        }
+
+        .mx-auto {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .min-h-screen {
+            min-height: 100vh;
+        }
+
+        .w-10 {
+            width: 2.5rem;
+        }
+
+        .h-10 {
+            height: 2.5rem;
+        }
+
+        .w-12 {
+            width: 3rem;
+        }
+
+        .h-12 {
+            height: 3rem;
+        }
+
+        .h-64 {
+            height: 16rem;
+        }
+
+        .border-b-2 {
+            border-bottom-width: 2px;
+        }
+
+        .border-white {
+            border-color: white;
+        }
+
+        .min-w-0 {
+            min-width: 0;
+        }
+
+        .whitespace-nowrap {
+            white-space: nowrap;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // API functions
+        const API_BASE = 'http://localhost:8000';
+        
+        const api = {
+            auth: {
+                login: async (credentials) => {
+                    const response = await fetch(`${API_BASE}/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(credentials)
+                    });
+                    return { data: await response.json() };
+                }
+            },
+            health: {
+                check: async () => {
+                    const response = await fetch(`${API_BASE}/health`);
+                    return { data: await response.json() };
+                }
+            }
+        };
+
+        // Login Component
+        const Login = ({ onLogin, error }) => {
+            const [credentials, setCredentials] = useState({
+                email: '',
+                password: ''
+            });
+            const [loading, setLoading] = useState(false);
+
+            const handleSubmit = async (e) => {
+                e.preventDefault();
+                setLoading(true);
+                
+                try {
+                    await onLogin(credentials);
+                } catch (err) {
+                    // Error handling is done in parent component
+                } finally {
+                    setLoading(false);
+                }
+            };
+
+            const handleChange = (e) => {
+                setCredentials({
+                    ...credentials,
+                    [e.target.name]: e.target.value
+                });
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4">
+                    <div className="max-w-md w-full space-y-8">
+                        <div className="text-center">
+                            <h1 className="text-2xl font-bold text-gray-900 mb-6">Medical Imaging Assistant</h1>
+                            <p className="text-sm text-gray-600">
+                                Sign in to your educational account
+                            </p>
+                        </div>
+                        
+                        <div className="card">
+                            <form onSubmit={handleSubmit}>
+                                {error && (
+                                    <div className="alert alert-error">
+                                        <div className="flex">
+                                            <div className="text-red-400 mr-2">⚠️</div>
+                                            <div className="text-sm">{error}</div>
+                                        </div>
+                                    </div>
+                                )}
+                                
+                                <div className="form-group">
+                                    <label htmlFor="email" className="form-label">
+                                        Email address
+                                    </label>
+                                    <input
+                                        id="email"
+                                        name="email"
+                                        type="email"
+                                        autoComplete="email"
+                                        required
+                                        className="form-input"
+                                        placeholder="Enter your email"
+                                        value={credentials.email}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                
+                                <div className="form-group">
+                                    <label htmlFor="password" className="form-label">
+                                        Password
+                                    </label>
+                                    <input
+                                        id="password"
+                                        name="password"
+                                        type="password"
+                                        autoComplete="current-password"
+                                        required
+                                        className="form-input"
+                                        placeholder="Enter your password"
+                                        value={credentials.password}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+
+                                <div className="mt-6">
+                                    <button
+                                        type="submit"
+                                        disabled={loading}
+                                        className="btn btn-primary w-full cursor-pointer"
+                                    >
+                                        {loading ? (
+                                            <div className="flex items-center justify-center">
+                                                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                                Signing in...
+                                            </div>
+                                        ) : (
+                                            'Sign in'
+                                        )}
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                        
+                        <div className="alert alert-info">
+                            <h3 className="text-sm font-medium mb-2">Demo Credentials</h3>
+                            <p className="text-xs">
+                                For demonstration purposes, you can use any email and password combination.
+                            </p>
+                        </div>
+                        
+                        <div className="alert alert-warning">
+                            <p className="text-xs">
+                                <strong>Educational Use Only:</strong> This platform is designed for medical education and training. 
+                                All AI analyses require human review by qualified medical professionals.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Dashboard Component
+        const Dashboard = ({ user, onNavigate, onAddPatient, onUploadImage }) => {
+            const [stats, setStats] = useState({
+                patients: 12,
+                images: 28,
+                reports: 15,
+                analyses: 20
+            });
+            const [recentActivity, setRecentActivity] = useState([
+                {
+                    id: 1,
+                    type: 'analysis',
+                    description: 'AI analysis completed for Chest X-ray',
+                    timestamp: new Date(Date.now() - 1000 * 60 * 30), // 30 minutes ago
+                },
+                {
+                    id: 2,
+                    type: 'patient',
+                    description: 'New patient record created',
+                    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 2), // 2 hours ago
+                },
+                {
+                    id: 3,
+                    type: 'report',
+                    description: 'Medical report finalized',
+                    timestamp: new Date(Date.now() - 1000 * 60 * 60 * 4), // 4 hours ago
+                }
+            ]);
+
+            const formatTimeAgo = (date) => {
+                const now = new Date();
+                const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+                
+                if (diffInMinutes < 60) {
+                    return `${diffInMinutes} minutes ago`;
+                } else if (diffInMinutes < 1440) {
+                    return `${Math.floor(diffInMinutes / 60)} hours ago`;
+                } else {
+                    return `${Math.floor(diffInMinutes / 1440)} days ago`;
+                }
+            };
+
+            const getActivityIcon = (type) => {
+                switch (type) {
+                    case 'analysis':
+                        return '🔬';
+                    case 'patient':
+                        return '👥';
+                    case 'report':
+                        return '📄';
+                    default:
+                        return '📊';
+                }
+            };
+
+            return (
+                <div className="space-y-6">
+                    {/* Welcome Section */}
+                    <div className="card">
+                        <h1 className="text-2xl font-bold text-gray-900 mb-2">
+                            Welcome back, {user.first_name}!
+                        </h1>
+                        <p className="text-gray-600">
+                            Here's an overview of your medical imaging activities.
+                        </p>
+                    </div>
+
+                    {/* Stats Cards */}
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-blue-100 rounded mr-4">👥</div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">Patients</p>
+                                    <p className="text-2xl font-bold text-gray-900">{stats.patients}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-green-100 rounded mr-4">🖼️</div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">Images</p>
+                                    <p className="text-2xl font-bold text-gray-900">{stats.images}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-purple-100 rounded mr-4">📄</div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">Reports</p>
+                                    <p className="text-2xl font-bold text-gray-900">{stats.reports}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="card">
+                            <div className="flex items-center">
+                                <div className="p-2 bg-orange-100 rounded mr-4">🔬</div>
+                                <div>
+                                    <p className="text-sm font-medium text-gray-600">Analyses</p>
+                                    <p className="text-2xl font-bold text-gray-900">{stats.analyses}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Quick Actions */}
+                    <div className="card">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <button 
+                                onClick={onAddPatient}
+                                className="btn btn-primary"
+                            >
+                                ➕ Add Patient
+                            </button>
+                            <button 
+                                onClick={() => onNavigate('analysis')}
+                                className="btn btn-success"
+                            >
+                                🖼️ Upload Image
+                            </button>
+                            <button 
+                                onClick={() => onNavigate('analysis')}
+                                className="btn btn-secondary"
+                            >
+                                🔬 Start Analysis
+                            </button>
+                        </div>
+                    </div>
+
+                    {/* Recent Activity */}
+                    <div className="card">
+                        <h2 className="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h2>
+                        <div className="space-y-4">
+                            {recentActivity.map((activity) => (
+                                <div key={activity.id} className="flex items-start space-x-3">
+                                    <div className="flex-shrink-0">
+                                        <span className="text-lg">{getActivityIcon(activity.type)}</span>
+                                    </div>
+                                    <div className="flex-1 min-w-0">
+                                        <p className="text-sm text-gray-900">{activity.description}</p>
+                                        <p className="text-xs text-gray-500">{formatTimeAgo(activity.timestamp)}</p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Patients Management Page Component
+        const PatientsPage = ({ user }) => {
+            const [patients, setPatients] = useState([
+                { id: 1, name: 'John Smith', age: 45, condition: 'Chest Pain', lastVisit: '2024-12-20' },
+                { id: 2, name: 'Sarah Johnson', age: 32, condition: 'Headache', lastVisit: '2024-12-19' },
+                { id: 3, name: 'Michael Brown', age: 58, condition: 'Back Pain', lastVisit: '2024-12-18' },
+                { id: 4, name: 'Emily Davis', age: 29, condition: 'Routine Checkup', lastVisit: '2024-12-17' },
+            ]);
+            const [showAddModal, setShowAddModal] = useState(false);
+            const [searchTerm, setSearchTerm] = useState('');
+            const [newPatient, setNewPatient] = useState({
+                name: '',
+                age: '',
+                condition: '',
+                notes: ''
+            });
+
+            const handleAddPatient = (e) => {
+                e.preventDefault();
+                const patient = {
+                    id: patients.length + 1,
+                    ...newPatient,
+                    lastVisit: new Date().toISOString().split('T')[0]
+                };
+                setPatients([...patients, patient]);
+                setNewPatient({ name: '', age: '', condition: '', notes: '' });
+                setShowAddModal(false);
+            };
+
+            const filteredPatients = patients.filter(patient =>
+                patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                patient.condition.toLowerCase().includes(searchTerm.toLowerCase())
+            );
+
+            return (
+                <div className="space-y-6">
+                    <div className="card">
+                        <div className="flex justify-between items-center mb-4">
+                            <h1 className="text-2xl font-bold text-gray-900">Patient Management</h1>
+                            <button
+                                onClick={() => setShowAddModal(true)}
+                                className="btn btn-primary"
+                            >
+                                ➕ Add New Patient
+                            </button>
+                        </div>
+
+                        {/* Search */}
+                        <div className="mb-4">
+                            <input
+                                type="text"
+                                placeholder="Search patients by name or condition..."
+                                className="form-input"
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                        </div>
+
+                        {/* Patients Table */}
+                        <div className="overflow-x-auto">
+                            <table className="table">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Age</th>
+                                        <th>Condition</th>
+                                        <th>Last Visit</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {filteredPatients.map((patient) => (
+                                        <tr key={patient.id}>
+                                            <td className="font-medium">{patient.name}</td>
+                                            <td>{patient.age}</td>
+                                            <td>{patient.condition}</td>
+                                            <td>{patient.lastVisit}</td>
+                                            <td>
+                                                <button className="btn btn-secondary text-sm">
+                                                    👁️ View
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    {/* Add Patient Modal */}
+                    {showAddModal && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+                            <div className="bg-white rounded-lg p-6 w-full max-w-md">
+                                <h2 className="text-lg font-semibold mb-4">Add New Patient</h2>
+                                <form onSubmit={handleAddPatient}>
+                                    <div className="form-group">
+                                        <label className="form-label">Full Name</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={newPatient.name}
+                                            onChange={(e) => setNewPatient({...newPatient, name: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Age</label>
+                                        <input
+                                            type="number"
+                                            className="form-input"
+                                            value={newPatient.age}
+                                            onChange={(e) => setNewPatient({...newPatient, age: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Primary Condition</label>
+                                        <input
+                                            type="text"
+                                            className="form-input"
+                                            value={newPatient.condition}
+                                            onChange={(e) => setNewPatient({...newPatient, condition: e.target.value})}
+                                            required
+                                        />
+                                    </div>
+                                    <div className="form-group">
+                                        <label className="form-label">Additional Notes</label>
+                                        <textarea
+                                            className="form-input"
+                                            rows="3"
+                                            value={newPatient.notes}
+                                            onChange={(e) => setNewPatient({...newPatient, notes: e.target.value})}
+                                        ></textarea>
+                                    </div>
+                                    <div className="flex justify-end gap-2 mt-4">
+                                        <button
+                                            type="button"
+                                            onClick={() => setShowAddModal(false)}
+                                            className="btn btn-secondary"
+                                        >
+                                            Cancel
+                                        </button>
+                                        <button type="submit" className="btn btn-primary">
+                                            Add Patient
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // Image Analysis Page Component
+        const AnalysisPage = ({ user }) => {
+            const [selectedFile, setSelectedFile] = useState(null);
+            const [preview, setPreview] = useState(null);
+            const [studyType, setStudyType] = useState('general');
+            const [analysisResult, setAnalysisResult] = useState(null);
+            const [loading, setLoading] = useState(false);
+
+            const handleFileSelect = (e) => {
+                const file = e.target.files[0];
+                if (file) {
+                    setSelectedFile(file);
+                    const reader = new FileReader();
+                    reader.onload = (e) => setPreview(e.target.result);
+                    reader.readAsDataURL(file);
+                }
+            };
+
+            const handleAnalyze = () => {
+                setLoading(true);
+                // Simulate AI analysis
+                setTimeout(() => {
+                    const mockResults = {
+                        general: "Analysis suggests normal findings. No significant abnormalities detected.",
+                        chest_xray: "Chest X-ray shows clear lung fields with no signs of consolidation or pneumothorax. Heart size appears normal.",
+                        brain_mri: "Brain MRI reveals normal brain parenchyma with no evidence of mass lesions or acute infarcts.",
+                        abdominal_ct: "Abdominal CT shows normal organ morphology. No acute findings.",
+                        mammography: "Mammography demonstrates normal breast tissue density with no suspicious microcalcifications."
+                    };
+                    
+                    setAnalysisResult(`AI Analysis Results for ${studyType.replace('_', ' ').toUpperCase()}:
+
+CONFIDENCE: 94.7%
+
+FINDINGS:
+${mockResults[studyType]}
+
+RECOMMENDATIONS:
+• Continue routine monitoring
+• Follow up in 6 months for comparison
+• Consult with radiologist for detailed review
+
+DISCLAIMER: This AI analysis is for educational purposes only and must be validated by a qualified medical professional before any clinical decisions are made.`);
+
+                    setLoading(false);
+                }, 3000);
+            };
+
+            const handleDownloadReport = () => {
+                const element = document.createElement('a');
+                const file = new Blob([analysisResult], { type: 'text/plain' });
+                element.href = URL.createObjectURL(file);
+                element.download = `analysis_report_${Date.now()}.txt`;
+                document.body.appendChild(element);
+                element.click();
+                document.body.removeChild(element);
+            };
+
+            return (
+                <div className="space-y-6">
+                    {/* Header */}
+                    <div className="card">
+                        <h1 className="text-2xl font-bold text-gray-900">Image Analysis</h1>
+                        <p className="text-gray-600">Upload and analyze medical images with AI assistance</p>
+                    </div>
+
+                    {/* Medical Disclaimer */}
+                    <div className="alert alert-warning">
+                        <div className="flex items-start">
+                            <div className="text-yellow-600 mr-2 mt-0.5 text-sm">⚠️</div>
+                            <div className="text-sm">
+                                <strong>Important:</strong> This AI analysis is for educational and training purposes only. 
+                                All results must be reviewed and validated by qualified medical professionals before any clinical use.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        {/* Image Upload Section */}
+                        <div className="card">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Upload Medical Image</h2>
+                            
+                            <div className="space-y-4">
+                                <div className="form-group">
+                                    <label className="form-label">
+                                        Study Type
+                                    </label>
+                                    <select
+                                        value={studyType}
+                                        onChange={(e) => setStudyType(e.target.value)}
+                                        className="form-select"
+                                    >
+                                        <option value="general">General</option>
+                                        <option value="chest_xray">Chest X-ray</option>
+                                        <option value="brain_mri">Brain MRI</option>
+                                        <option value="abdominal_ct">Abdominal CT</option>
+                                        <option value="mammography">Mammography</option>
+                                    </select>
+                                </div>
+
+                                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center hover:border-gray-400 transition-colors">
+                                    {preview ? (
+                                        <div className="space-y-4">
+                                            <img 
+                                                src={preview} 
+                                                alt="Preview" 
+                                                className="max-h-64 mx-auto rounded shadow"
+                                            />
+                                            <button
+                                                onClick={() => {
+                                                    setSelectedFile(null);
+                                                    setPreview(null);
+                                                    setAnalysisResult(null);
+                                                }}
+                                                className="text-sm text-gray-600 hover:text-gray-800"
+                                            >
+                                                Remove image
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div>
+                                            <div className="text-6xl text-gray-400 mb-4">📁</div>
+                                            <div className="text-gray-600">
+                                                <label htmlFor="file-upload" className="cursor-pointer">
+                                                    <span className="text-blue-600 hover:text-blue-500">Click to upload</span>
+                                                    <span> or drag and drop</span>
+                                                </label>
+                                                <p className="text-sm text-gray-500 mt-2">
+                                                    PNG, JPG, TIFF, or DICOM files up to 10MB
+                                                </p>
+                                            </div>
+                                            <input
+                                                id="file-upload"
+                                                type="file"
+                                                className="hidden"
+                                                accept="image/*,.dcm,.dicom"
+                                                onChange={handleFileSelect}
+                                            />
+                                        </div>
+                                    )}
+                                </div>
+
+                                {selectedFile && (
+                                    <div className="flex items-center justify-between p-3 bg-gray-50 rounded">
+                                        <div className="flex items-center">
+                                            <div className="text-2xl mr-2">🖼️</div>
+                                            <div>
+                                                <p className="text-sm font-medium text-gray-900">{selectedFile.name}</p>
+                                                <p className="text-xs text-gray-500">
+                                                    {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <button
+                                            onClick={handleAnalyze}
+                                            disabled={loading}
+                                            className="btn btn-primary cursor-pointer opacity-50 cursor-not-allowed"
+                                        >
+                                            {loading ? (
+                                                <div className="flex items-center">
+                                                    <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                                                    Analyzing...
+                                                </div>
+                                            ) : (
+                                                <div className="flex items-center">
+                                                    🔬 Analyze Image
+                                                </div>
+                                            )}
+                                        </button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+
+                        {/* Analysis Results Section */}
+                        <div className="card">
+                            <h2 className="text-lg font-semibold text-gray-900 mb-4">Analysis Results</h2>
+                            
+                            {!analysisResult && !loading && (
+                                <div className="text-center py-12">
+                                    <div className="text-6xl text-gray-400 mb-4">🔬</div>
+                                    <p className="text-gray-500">
+                                        Upload and analyze an image to see results here
+                                    </p>
+                                </div>
+                            )}
+
+                            {loading && (
+                                <div className="text-center py-12">
+                                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                                    <p className="text-gray-600">AI is analyzing the image...</p>
+                                    <p className="text-sm text-gray-500 mt-2">
+                                        This may take a few moments
+                                    </p>
+                                </div>
+                            )}
+
+                            {analysisResult && (
+                                <div className="space-y-4">
+                                    <div className="bg-gray-50 rounded p-4">
+                                        <pre className="text-sm text-gray-700 whitespace-pre-wrap font-mono">
+                                            {analysisResult}
+                                        </pre>
+                                    </div>
+                                    
+                                    <div className="flex justify-end">
+                                        <button
+                                            onClick={handleDownloadReport}
+                                            className="btn btn-success"
+                                        >
+                                            📥 Download Report
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Main App Component
+        const App = () => {
+            const [user, setUser] = useState(null);
+            const [loading, setLoading] = useState(true);
+            const [error, setError] = useState(null);
+            const [currentPage, setCurrentPage] = useState('dashboard');
+
+            useEffect(() => {
+                // Check if user is logged in
+                const token = localStorage.getItem('token');
+                const userData = localStorage.getItem('user');
+                
+                if (token && userData) {
+                    setUser(JSON.parse(userData));
+                }
+                
+                setLoading(false);
+            }, []);
+
+            const handleLogin = async (credentials) => {
+                try {
+                    setError(null);
+                    const response = await api.auth.login(credentials);
+                    
+                    if (response.data.access_token) {
+                        const user = {
+                            id: '1',
+                            email: credentials.email,
+                            first_name: 'John',
+                            last_name: 'Doe',
+                            role: 'medical_student'
+                        };
+                        localStorage.setItem('token', response.data.access_token);
+                        localStorage.setItem('user', JSON.stringify(user));
+                        setUser(user);
+                    } else {
+                        setError('Login failed');
+                    }
+                } catch (err) {
+                    // For demo purposes, simulate successful login
+                    const user = {
+                        id: '1',
+                        email: credentials.email,
+                        first_name: 'John',
+                        last_name: 'Doe',
+                        role: 'medical_student'
+                    };
+                    localStorage.setItem('token', 'demo-token');
+                    localStorage.setItem('user', JSON.stringify(user));
+                    setUser(user);
+                }
+            };
+
+            const handleLogout = () => {
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                setUser(null);
+                setCurrentPage('dashboard');
+            };
+
+            if (loading) {
+                return (
+                    <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+                        <div className="text-center">
+                            <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600 mx-auto mb-4"></div>
+                            <p className="text-gray-600">Loading Medical Imaging Assistant...</p>
+                        </div>
+                    </div>
+                );
+            }
+
+            if (!user) {
+                return <Login onLogin={handleLogin} error={error} />;
+            }
+
+            return (
+                <div className="min-h-screen bg-gray-50">
+                    {/* Header */}
+                    <header className="header">
+                        <div className="header-content">
+                            <div className="flex items-center">
+                                <h1 className="header-title">Medical Imaging Assistant</h1>
+                            </div>
+                            
+                            <div className="header-user">
+                                <div className="text-sm text-gray-600">
+                                    <span>{user.first_name} {user.last_name}</span>
+                                    <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 rounded text-xs">
+                                        {user.role}
+                                    </span>
+                                </div>
+                                
+                                <button
+                                    onClick={handleLogout}
+                                    className="btn btn-secondary"
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </header>
+
+                    {/* Medical Disclaimer */}
+                    <div className="bg-yellow-50 border-b border-yellow-200">
+                        <div className="container py-3">
+                            <div className="flex items-start">
+                                <div className="text-yellow-600 mr-2 mt-0.5 text-sm">⚠️</div>
+                                <div className="text-sm text-yellow-800">
+                                    <strong>Educational Use Only:</strong> This application is designed for educational and training purposes. 
+                                    All AI-generated analyses must be reviewed and validated by qualified medical professionals. 
+                                    Do not use for actual patient diagnosis.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Navigation */}
+                    <div className="bg-white border-b">
+                        <div className="container">
+                            <nav className="nav py-2">
+                                <a 
+                                    href="#" 
+                                    className={`nav-link ${currentPage === 'dashboard' ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setCurrentPage('dashboard');
+                                    }}
+                                >
+                                    Dashboard
+                                </a>
+                                <a 
+                                    href="#" 
+                                    className={`nav-link ${currentPage === 'patients' ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setCurrentPage('patients');
+                                    }}
+                                >
+                                    Patients
+                                </a>
+                                <a 
+                                    href="#" 
+                                    className={`nav-link ${currentPage === 'analysis' ? 'active' : ''}`}
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        setCurrentPage('analysis');
+                                    }}
+                                >
+                                    Image Analysis
+                                </a>
+                            </nav>
+                        </div>
+                    </div>
+
+                    {/* Main Content */}
+                    <main className="container py-6">
+                        {currentPage === 'dashboard' && (
+                            <Dashboard 
+                                user={user} 
+                                onNavigate={setCurrentPage}
+                                onAddPatient={() => setCurrentPage('patients')}
+                                onUploadImage={() => setCurrentPage('analysis')}
+                            />
+                        )}
+                        {currentPage === 'patients' && <PatientsPage user={user} />}
+                        {currentPage === 'analysis' && <AnalysisPage user={user} />}
+                    </main>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
+
